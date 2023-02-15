@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-// eingabe für die Bewegung der Schlange
+// eingabe für wadie Bewegung der Schlange
 char input;
 // Boolescher Wert ob essen auf dem Feld liegt (food = 0, essen nicht da)(food = 1, essen da)
 int food = 0;
@@ -14,7 +14,7 @@ int fieldWidth = 0;
 //Geschwindigkeit der Schlange
 int speed = 0;
 //Timer
-int zeit = 0;
+int milisec = 0;
 int second = 0;
 int minute = 0;
 
@@ -106,24 +106,6 @@ void generateSnake(char field[fieldHeight][fieldWidth], int snake[2][(fieldHeigh
     field[snake[0][0]][snake[1][0]] = '&';
 }
 
-// Print funktion zum ausgeben des gesamten Feldes mit Score
-void printField(char field[fieldHeight][fieldWidth])
-{
-    // Konsole wird gelöscht
-    system("cls");
-    // Score wird ausgegeben
-    printf("Score: %d\t\tTimer: %d:%2.d\n\n", score, second/60, second);
-    // Feld wird ausgegeben
-    for (int i = 0; i < fieldHeight; i++)
-    {
-        for (int z = 0; z < fieldHeight+1; z++)
-        {
-            printf("%c ", field[i][z]);
-        }
-        printf("\n");
-    }
-}
-
 // Das Essen wird zufällige im Feld platziert
 void generateFood(char field[fieldHeight][fieldWidth])
 {
@@ -141,6 +123,24 @@ void generateFood(char field[fieldHeight][fieldWidth])
     // Essen wird ins Feld platziert und food wird auf 1 gesetzt
     field[row][col] = '+';
     food = 1;
+}
+
+// Print funktion zum ausgeben des gesamten Feldes mit Score
+void printField(char field[fieldHeight][fieldWidth])
+{
+    // Konsole wird gelöscht
+    system("cls");
+    // Score wird ausgegeben
+    printf("Score: %d\t\tTimer: %d:%2.d\n\n", score, second/60, second);
+    // Feld wird ausgegeben
+    for (int i = 0; i < fieldHeight; i++)
+    {
+        for (int z = 0; z < fieldHeight+1; z++)
+        {
+            printf("%c ", field[i][z]);
+        }
+        printf("\n");
+    }
 }
 
 // Verlängerung der Schlange durch aufsammeln des Essens
@@ -261,12 +261,13 @@ void moveSnake(int snake[2][(fieldHeight - 2) * (fieldWidth - 2)], char field[fi
     field[snake[0][0]][snake[1][0]] = '&';
 }
 
+//Zählt sekunden, wie lange das Game läuft.
 void timer()
 {
-    zeit += speed;
-    if(zeit >= 1000)
+    milisec += speed;
+    if(milisec >= 1000)
     {
-        zeit = 0;
+        milisec = 0;
         second++;
     }
     if(second == 60)
